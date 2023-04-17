@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <title>Search Albums</title>
+    <meta charset="UTF-8"/>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/6en8XCp+HHAAK5GSLf2xlYtvJ8U2Q4U+9cuEnJoa3"
+          crossorigin="anonymous">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            color: #4c4c4c;
+        }
+
+        ul {
+            padding-left: 0;
+        }
+
+        li {
+            list-style-type: none;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        img {
+            border-radius: 5px;
+        }
+
+        .album-name {
+            font-size: 1.2rem;
+            margin-left: 10px;
+        }
+
+        .top-right {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+
+    </style>
+</head>
+<body class="container">
+<h1 class="my-4">Search Albums by Author Name</h1>
+<form th:action="@{/search}" method="post" class="mb-4">
+    <div class="mb-3">
+        <label for="authorName" class="form-label">Enter author name:</label>
+        <input type="text" class="form-control" id="authorName" name="authorName" required/>
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+<div th:if="${!#lists.isEmpty(albums)}">
+    <h2>Albums:</h2>
+    <ul class="list-unstyled">
+        <li th:each="album : ${albums}" class="my-3">
+            <img class="img-thumbnail" style="width: 100px; height: 100px;" th:src="${album.albumImage}"
+                 alt="Album Image"/>
+            <span th:text="${album.albumName}" class="ms-2 album-name">Album Name</span>
+            <form th:action="@{/add-album}" method="post" style="display:inline;">
+                <input type="hidden" name="albumName" th:value="${album.albumName}"/>
+                <input type="hidden" name="albumImage" th:value="${album.albumImage}"/>
+                <button type="submit" class="btn btn-success ms-2">Add</button>
+            </form>
+        </li>
+    </ul>
+</div>
+<a href="/albums" class="btn btn-secondary mt-4 top-right">Favorites Albums</a>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.bundle.min.js"
+        integrity="sha384-8Wf2NguQ97tvoxce/Qtec2uzW8iJvMsS7g4pX9BL4hW8vw4c4lEi5G5A5jY+v8Fz"
+        crossorigin="anonymous"></script>
+</body>
+</html>
